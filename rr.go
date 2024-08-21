@@ -1,5 +1,5 @@
 // Package rr is a package for convinient reading of json data from an http request and writing json to reponse.
-package rr
+package github.com/wanomir/rr
 
 import (
 	"encoding/json"
