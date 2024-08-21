@@ -15,24 +15,24 @@ type JSONResponse struct {
 	Data    any    `json:"data,omitempty"`
 }
 
-// ReadRespond the main struct that stores all methods for reading and writing response.
+// ReadResponder the main struct that stores all methods for reading and writing response.
 type ReadResponder struct {
 	maxBytes int
 }
 
-// ReadRespondOption type for ReadRespond initialization options.
-type ReadRespondOption func(*ReadRespond)
+// ReadResponderOption type for ReadRespond initialization options.
+type ReadResponderOption func(*ReadRespond)
 
 // WithMaxBytes constructor option functions for setting maxBytes option.
-func WithMaxBytes(maxBytes int) ReadRespondOption {
-	return func(r *ReadRespond) {
+func WithMaxBytes(maxBytes int) ReadResponderOption {
+	return func(r *ReadResponder) {
 		r.maxBytes = maxBytes
 	}
 }
 
-// NewReadRespond ReadRespond constructor funciton.
-func NewReadRespond(options ...ReadRespondOption) *ReadRespond {
-	rr := &ReadRespond{}
+// NewReadResponder ReadResponder constructor funciton.
+func NewReadResponder(options ...ReadResponderOption) *ReadResponder {
+	rr := &ReadResponder{}
 
 	for _, option := range options {
 		option(rr)
@@ -41,7 +41,7 @@ func NewReadRespond(options ...ReadRespondOption) *ReadRespond {
 }
 
 // ReadJSON method reads json data from request to specified struct and returns an error if something went wrong.
-func (rr *ReadRespond) ReadJSON(w http.ResponseWriter, r *http.Request, data any) error {
+func (rr *ReadResponder) ReadJSON(w http.ResponseWriter, r *http.Request, data any) error {
 	if rr.maxBytes > 0 {
 		r.Body = http.MaxBytesReader(w, r.Body, int64(rr.maxBytes))
 	}
@@ -63,7 +63,7 @@ func (rr *ReadRespond) ReadJSON(w http.ResponseWriter, r *http.Request, data any
 }
 
 // WriteJSON writes json response with provided data and status, and additional headers if specified. Returns an error if something went wrong.
-func (rr *ReadRespond) WriteJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
+func (rr *ReadResponder) WriteJSON(w http.ResponseWriter, status int, data any, headers ...http.Header) error {
 	if len(headers) > 0 {
 		for key, value := range headers[0] {
 			w.Header()[key] = value
@@ -78,7 +78,7 @@ func (rr *ReadRespond) WriteJSON(w http.ResponseWriter, status int, data any, he
 
 // WriteJSONError writes json response with provided error message and additional status code if specified. 
 // Default stauts is 400. Returns an error if something went wrong.
-func (rr *ReadRespond) WriteJSONError(w http.ResponseWriter, err error, status ...int) error {
+func (rr *ReadResponder) WriteJSONError(w http.ResponseWriter, err error, status ...int) error {
 
 	statusCode := http.StatusBadRequest
 	if len(status) > 0 {
