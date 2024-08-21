@@ -16,7 +16,7 @@ type JSONResponse struct {
 }
 
 // ReadRespond the main struct that stores all methods for reading and writing response.
-type ReadRespond struct {
+type ReadResponder struct {
 	maxBytes int
 }
 
