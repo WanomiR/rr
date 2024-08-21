@@ -21,7 +21,7 @@ type ReadResponder struct {
 }
 
 // ReadResponderOption type for ReadRespond initialization options.
-type ReadResponderOption func(*ReadRespond)
+type ReadResponderOption func(*ReadResponder)
 
 // WithMaxBytes constructor option functions for setting maxBytes option.
 func WithMaxBytes(maxBytes int) ReadResponderOption {
